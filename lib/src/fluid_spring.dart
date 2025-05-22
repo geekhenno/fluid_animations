@@ -9,7 +9,7 @@ import 'package:flutter/widgets.dart';
 class FluidSpring extends SpringDescription {
   /// Creates a spring with the specified duration and bounce.
   const FluidSpring({
-    this.duration = 0.5,
+    this.springDuration = 0.5,
     this.bounce = 0,
   })  : assert(
           -1 <= bounce && bounce <= 1,
@@ -17,8 +17,8 @@ class FluidSpring extends SpringDescription {
         ),
         super(
           mass: 1,
-          stiffness: (2 * pi / duration) * (2 * pi / duration),
-          damping: 4 * pi * (1 - bounce) / duration,
+          stiffness: (2 * pi / springDuration) * (2 * pi / springDuration),
+          damping: 4 * pi * (1 - bounce) / springDuration,
         );
 
   /// Creates a persistent spring that is based on duration
@@ -29,12 +29,12 @@ class FluidSpring extends SpringDescription {
   /// critical damping.
   const FluidSpring.withDamping({
     double dampingFraction = 0.825,
-    this.duration = 0.5,
+    this.springDuration = 0.5,
   })  : bounce = 1 - dampingFraction,
         super(
           mass: 1,
-          stiffness: (2 * pi / duration) * (2 * pi / duration),
-          damping: 4 * pi * dampingFraction / duration,
+          stiffness: (2 * pi / springDuration) * (2 * pi / springDuration),
+          damping: 4 * pi * dampingFraction / springDuration,
         );
 
   /// Defines the pace of the spring.
@@ -42,7 +42,7 @@ class FluidSpring extends SpringDescription {
   /// This is approximately equal to the settling duration,
   /// but for springs with very large bounce values, will be the duration of
   /// the period of oscillation for the spring.
-  final double duration;
+  final double springDuration;
 
   /// How bouncy the spring should be.
   ///
@@ -65,7 +65,7 @@ class FluidSpring extends SpringDescription {
   /// This uses the [default values for iOS](https://developer.apple.com/documentation/swiftui/animation/default).
   static const defaultSpring = FluidSpring.withDamping(
     dampingFraction: 1,
-    duration: 0.55,
+    springDuration: 0.55,
   );
 
   /// A spring with a predefined duration and higher amount of bounce.
@@ -84,7 +84,7 @@ class FluidSpring extends SpringDescription {
   /// intended for driving interactive animations.
   static const interactiveSpring = FluidSpring.withDamping(
     dampingFraction: 0.86,
-    duration: 0.15,
+    springDuration: 0.15,
     //blend: 0.25
   );
 
@@ -96,12 +96,12 @@ class FluidSpring extends SpringDescription {
   FluidSpring extraBounce(double extraBounce, [double? duration]) =>
       FluidSpring(
         bounce: bounce + extraBounce,
-        duration: duration ?? this.duration,
+        springDuration: duration ?? this.springDuration,
       );
 
   @override
   String toString() {
     // ignore: lines_longer_than_80_chars
-    return '${objectRuntimeType(this, 'FluidSpring')}(bounce: $bounce, duration: $duration)';
+    return '${objectRuntimeType(this, 'FluidSpring')}(bounce: $bounce, duration: $springDuration)';
   }
 }
