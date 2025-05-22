@@ -9,16 +9,17 @@ import 'package:flutter/widgets.dart';
 class FluidSpring extends SpringDescription {
   /// Creates a spring with the specified duration and bounce.
   const FluidSpring({
-    this.springDuration = 0.5,
+    double duration = 0.5,
     this.bounce = 0,
-  })  : assert(
+  })  : springDuration = duration,
+        assert(
           -1 <= bounce && bounce <= 1,
           'The bounce value needs to be in a range of -1 to 1.',
         ),
         super(
           mass: 1,
-          stiffness: (2 * pi / springDuration) * (2 * pi / springDuration),
-          damping: 4 * pi * (1 - bounce) / springDuration,
+          stiffness: (2 * pi / duration) * (2 * pi / duration),
+          damping: 4 * pi * (1 - bounce) / duration,
         );
 
   /// Creates a persistent spring that is based on duration
@@ -29,12 +30,13 @@ class FluidSpring extends SpringDescription {
   /// critical damping.
   const FluidSpring.withDamping({
     double dampingFraction = 0.825,
-    this.springDuration = 0.5,
-  })  : bounce = 1 - dampingFraction,
+    double duration = 0.5,
+  })  : springDuration = duration,
+        bounce = 1 - dampingFraction,
         super(
           mass: 1,
-          stiffness: (2 * pi / springDuration) * (2 * pi / springDuration),
-          damping: 4 * pi * dampingFraction / springDuration,
+          stiffness: (2 * pi / duration) * (2 * pi / duration),
+          damping: 4 * pi * dampingFraction / duration,
         );
 
   /// Defines the pace of the spring.
@@ -65,7 +67,7 @@ class FluidSpring extends SpringDescription {
   /// This uses the [default values for iOS](https://developer.apple.com/documentation/swiftui/animation/default).
   static const defaultSpring = FluidSpring.withDamping(
     dampingFraction: 1,
-    springDuration: 0.55,
+    duration: 0.55,
   );
 
   /// A spring with a predefined duration and higher amount of bounce.
@@ -84,7 +86,7 @@ class FluidSpring extends SpringDescription {
   /// intended for driving interactive animations.
   static const interactiveSpring = FluidSpring.withDamping(
     dampingFraction: 0.86,
-    springDuration: 0.15,
+    duration: 0.15,
     //blend: 0.25
   );
 
@@ -96,7 +98,7 @@ class FluidSpring extends SpringDescription {
   FluidSpring extraBounce(double extraBounce, [double? duration]) =>
       FluidSpring(
         bounce: bounce + extraBounce,
-        springDuration: duration ?? this.springDuration,
+        duration: duration ?? springDuration,
       );
 
   @override

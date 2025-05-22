@@ -56,7 +56,7 @@ class _SpringDemoViewState extends State<SpringDemoView>
     );
 
     final spring = FluidSpring.withDamping(
-        dampingFraction: dampingFraction, springDuration: response);
+        dampingFraction: dampingFraction, duration: response);
 
     final simulation = SpringSimulation(spring, 0, 1, 0);
 
